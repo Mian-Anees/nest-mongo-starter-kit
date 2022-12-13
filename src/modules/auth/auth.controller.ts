@@ -1,5 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException } from '@nestjs/common';
-import { ResponseCode, ResponseMessage } from 'src/utils/enums/enum';
+import { Roles } from 'src/utils/config/roles.decorator';
+import { RolesGuard } from 'src/utils/config/roles.guard';
+import { ResponseCode, ResponseMessage, Role } from 'src/utils/enums/enum';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { AuthService } from './auth.service';
 import { LoginAuthDto, SignupAuthDto, UpdateAuthDto } from './dto/auth.dto';
@@ -8,6 +10,7 @@ import { LoginAuthDto, SignupAuthDto, UpdateAuthDto } from './dto/auth.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) { }
 
+  @Roles(Role.COMPANY_ADMIN)
   @Post('signup')
   async signup(@Body() createAuthDto: CreateUserDto) {
     try {
@@ -20,6 +23,7 @@ export class AuthController {
       throw new HttpException(error.message, ResponseCode.BAD_REQUEST)
     }
   }
+
 
   @Get('login')
   async login(@Body() loginAuthDto: LoginAuthDto) {

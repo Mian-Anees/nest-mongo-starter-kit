@@ -28,3 +28,21 @@ export enum ErrorMessage {
     INVALID_CREDIENTIALS = "Invalid Credientials",
     EMAIL_NOT_FOUND = "Email Not Exists"
 }
+
+
+export enum Role {
+    MASTER_ADMIN = "MasterAdmin",
+    COMPANY_ADMIN = "CompanyAdmin",
+    GENERAL_MANAGER = "GeneralManager",
+    FINANCE_MANAGER = "FinanceManager",
+    RIDER_USER = "Rider",
+    COURIER_CLERK = "CourierClerk"
+}
+
+
+export enum NodeEnv {
+    DEVELOPMENT = "development",
+    STAGING = "staging",
+    TESTNG = "testing",
+    PRODUCTION = "production"
+}
