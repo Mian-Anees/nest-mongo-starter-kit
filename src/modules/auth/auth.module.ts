@@ -4,10 +4,16 @@ import { AuthController } from './auth.controller';
 import { UsersRepositoryService } from 'src/repositories/user.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { userSchema } from '../users/entities/user.entity';
-
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from 'src/utils/config/roles.guard';
+import { PassportModule } from "@nestjs/passport"
+import { JwtModule } from '@nestjs/jwt';
 @Module({
   imports: [MongooseModule.forFeature([{ name: 'Users', schema: userSchema }])],
   controllers: [AuthController],
-  providers: [AuthService, UsersRepositoryService]
+  providers: [AuthService, UsersRepositoryService, {
+    provide: APP_GUARD,
+    useClass: RolesGuard,
+  },]
 })
 export class AuthModule { }

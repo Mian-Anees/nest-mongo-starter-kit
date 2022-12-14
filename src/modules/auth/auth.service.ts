@@ -1,10 +1,10 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Injectable, NotAcceptableException } from '@nestjs/common';
 import { UsersRepositoryService } from 'src/repositories/user.repository';
 import { generateToken } from 'src/utils/jwt/token';
 import { CreateUserDto } from '../users/dto/create-user.dto';
-import { LoginAuthDto, UpdateAuthDto, SignupAuthDto } from './dto/auth.dto';
+import { LoginAuthDto } from './dto/auth.dto';
 import * as bcrypt from 'bcrypt';
-import { ErrorMessage, ResponseCode } from 'src/utils/enums/enum';
+import { ErrorMessage, ResponseCode, ResponseMessage } from 'src/utils/enums/enum';
 
 @Injectable()
 export class AuthService {
@@ -12,6 +12,20 @@ export class AuthService {
   constructor(
     private readonly userRepo: UsersRepositoryService
   ) { }
+
+  async validateUser(email: string, password: string): Promise<any> {
+    const user = await this.userRepo.findByEmail(email)
+    if (!user) return null;
+    const passwordValid = password === user.password;
+    if (!user) {
+      throw new NotAcceptableException(ErrorMessage.USER_NOT_FOUND);
+    }
+    if (user && passwordValid) {
+      return true;
+    }
+    return null;
+  }
+
 
   async signup(signupAuthDto: CreateUserDto) {
     try {

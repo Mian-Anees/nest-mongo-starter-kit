@@ -6,7 +6,7 @@ import * as bcrypt from 'bcrypt';
 export const userSchema = new mongoose.Schema({
   id: { type: String },
   name: { type: String, required: true },
-  type: { type: String },
+  role: { type: String },
   email: { type: String, required: true },
   password: { type: String, required: true },
   companyRef: { type: String },
@@ -22,7 +22,7 @@ userSchema.pre("save", async function (next) {
 export interface Users extends Document {
   id: string,
   name: string,
-  type: string,
+  role: string,
   email: string,
   password: string,
   companyRef: string,

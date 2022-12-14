@@ -26,7 +26,8 @@ export enum Gender {
 export enum ErrorMessage {
     USER_EXISTS = "User Already Exists",
     INVALID_CREDIENTIALS = "Invalid Credientials",
-    EMAIL_NOT_FOUND = "Email Not Exists"
+    EMAIL_NOT_FOUND = "Email Not Exists",
+    USER_NOT_FOUND = "User Not Found"
 }
 
 

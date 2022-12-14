@@ -6,7 +6,6 @@ import { Request, Response, NextFunction } from 'express';
 export class AppLoggerMiddleware implements NestMiddleware {
     private logger = new Logger('HTTP');
     use(request: Request, response: Response, next: NextFunction): void {
-        console.log("------- here in the midlleware ---------")
         const { ip, method, path: url } = request;
         const userAgent = request.get('user-agent') || '';
 
