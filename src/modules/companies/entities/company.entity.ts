@@ -18,8 +18,8 @@ companySchema.pre("save", async function (next) {
 })
 
 export interface Companies extends Document {
-  id: string,
-  name: string,
-  email: string
-  password: string
+  id: String,
+  name: String,
+  email: String,
+  password: String
 }
