@@ -12,6 +12,7 @@ import { RolesGuard } from 'src/utils/config/roles.guard';
   providers: [AuthService, UsersRepositoryService, {
     provide: APP_GUARD,
     useClass: RolesGuard,
-  },]
+  },],
+  exports: [AuthService]
 })
 export class AuthModule { }
