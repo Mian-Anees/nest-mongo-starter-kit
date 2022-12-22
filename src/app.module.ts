@@ -7,18 +7,20 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './modules/auth/auth.module';
 import { AppLoggerMiddleware } from './utils/config/middleware';
 import { NodeEnv } from './utils/enums/enum';
+import { AddressesModule } from './modules/addresses/addresses.module';
+import { AreasModule } from './modules/areas/areas.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: `.${process.env.NODE_ENV}.env`,
       isGlobal: true,
-
     }),
-
     MongooseModule.forRoot(process.env.MONGO_DB_URI),
     AuthModule,
     UsersModule,
+    AreasModule,
+    AddressesModule,
     CompaniesModule],
   controllers: [],
   providers: [AppLoggerMiddleware],

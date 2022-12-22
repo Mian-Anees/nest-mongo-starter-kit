@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, HttpException } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -21,10 +21,7 @@ export class UsersController {
         message: ResponseMessage.CREATED_SUCCESSFULLY
       }
     } catch (error) {
-      return {
-        status: ResponseCode.BAD_REQUEST,
-        message: ResponseMessage.BAD_REQUEST
-      }
+      throw new HttpException(error.message, ResponseCode.BAD_REQUEST)
     }
   }
 
@@ -33,16 +30,13 @@ export class UsersController {
   @Get()
   async findAll() {
     try {
-
       const result = await this.usersService.findAll()
-
       if (!result.length) {
         return {
           status: ResponseCode.CONTENT_NOT_FOUND,
           message: ResponseMessage.CONTENT_NOT_FOUND
         }
       }
-
       return {
         status: ResponseCode.SUCCESS,
         data: result,
@@ -50,10 +44,7 @@ export class UsersController {
       }
 
     } catch (error) {
-      return {
-        status: ResponseCode.BAD_REQUEST,
-        message: ResponseMessage.BAD_REQUEST
-      }
+      throw new HttpException(error.message, ResponseCode.BAD_REQUEST)
     }
   }
 

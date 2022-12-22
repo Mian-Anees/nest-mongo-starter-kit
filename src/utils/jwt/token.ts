@@ -32,9 +32,7 @@ export const decodeToken = (bearerToken: string) => {
 export const verifyToken = (bearerToken: string) => {
     try {
         const token = bearerToken.substring(7, bearerToken.length)
-        console.log({ token })
         const isValid = jwt.verify(token, process.env.JWT_SECRET_KEY)
-        console.log(isValid)
         if (isValid) {
             return true
         }

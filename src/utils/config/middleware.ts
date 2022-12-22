@@ -22,7 +22,6 @@ export class AppLoggerMiddleware implements NestMiddleware {
             );
 
         });
-
         next();
     }
 }

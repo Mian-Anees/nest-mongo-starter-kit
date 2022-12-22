@@ -1,19 +1,36 @@
 import { Injectable } from '@nestjs/common';
+import { AreaRepositoryService } from 'src/repositories/areas.repository';
 import { CreateAreaDto } from './dto/create-area.dto';
 import { UpdateAreaDto } from './dto/update-area.dto';
 
 @Injectable()
 export class AreasService {
-  create(createAreaDto: CreateAreaDto) {
-    return 'This action adds a new area';
+
+  constructor(private readonly areasRepositoryService: AreaRepositoryService) {
+  }
+
+  async create(createAreaDto: CreateAreaDto) {
+    try {
+      return this.areasRepositoryService.createArea(createAreaDto)
+    } catch (error) {
+      throw error;
+    }
   }
 
   findAll() {
-    return `This action returns all areas`;
+    try {
+      return this.areasRepositoryService.findAllAreas();
+    } catch (error) {
+      throw error
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} area`;
+  findOne(name: string) {
+    try {
+      return this.areasRepositoryService.findByName(name)
+    } catch (error) {
+      throw error
+    }
   }
 
   update(id: number, updateAreaDto: UpdateAreaDto) {

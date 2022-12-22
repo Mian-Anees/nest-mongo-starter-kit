@@ -1,26 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable } from '@nestjs/common';
+import { AddressesRepositoryService } from 'src/repositories/addresses.repository';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
 
 @Injectable()
 export class AddressesService {
-  create(createAddressDto: CreateAddressDto) {
-    return 'This action adds a new address';
+  constructor(
+    private readonly addressRepository: AddressesRepositoryService) {
   }
 
-  findAll() {
-    return `This action returns all addresses`;
+  async create(createAddressDto: CreateAddressDto) {
+    try {
+      return this.addressRepository.createAddress(createAddressDto);
+    } catch (error) {
+      console.error(error)
+      throw error;
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} address`;
+  async findAll() {
+    try {
+      return this.addressRepository.findAllAddresses();
+    } catch (error) {
+      throw error
+    }
   }
 
-  update(id: number, updateAddressDto: UpdateAddressDto) {
+  async findOne(city: string) {
+    try {
+      return this.addressRepository.findByCity(city)
+    } catch (error) {
+      throw error
+    }
+
+  }
+
+  async update(id: number, updateAddressDto: UpdateAddressDto) {
     return `This action updates a #${id} address`;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return `This action removes a #${id} address`;
   }
 }

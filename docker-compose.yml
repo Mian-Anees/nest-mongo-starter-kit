@@ -8,19 +8,24 @@ services:
     environment:
       NODE_ENV: development
     ports:
-      - 3000:3000
+      - 3001:3000
     depends_on:
       - mongo
+    networks:
+      - db
   mongo:
     image: mongo:latest
     container_name: 'nest_mongo'
+    restart: always
     volumes:
       - mongodb_data_container:/data/db
     environment:
       - MONGO_INITDB_DATABASE=nest
     ports:
-      - 27017:27017
+      - 27000:27017
+    networks:
+      - db
 networks:
-  webnet:
+  db:
 volumes:
   mongodb_data_container:
