@@ -25,8 +25,8 @@ export class UsersController {
     }
   }
 
-  @UseGuards(AuthGuard)
-  @Roles(Role.MASTER_ADMIN)
+  // @UseGuards(AuthGuard)
+  // @Roles(Role.MASTER_ADMIN)
   @Get()
   async findAll() {
     try {

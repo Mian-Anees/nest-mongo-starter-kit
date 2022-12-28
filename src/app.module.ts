@@ -9,6 +9,8 @@ import { AppLoggerMiddleware } from './utils/config/middleware';
 import { NodeEnv } from './utils/enums/enum';
 import { AddressesModule } from './modules/addresses/addresses.module';
 import { AreasModule } from './modules/areas/areas.module';
+import { RedisModule } from '@nestjs-modules/ioredis';
+
 
 @Module({
   imports: [
@@ -16,7 +18,12 @@ import { AreasModule } from './modules/areas/areas.module';
       envFilePath: `.${process.env.NODE_ENV}.env`,
       isGlobal: true,
     }),
-    MongooseModule.forRoot(process.env.MONGO_DB_URI),
+    MongooseModule.forRoot('mongodb://dbservice/nest'),
+    RedisModule.forRoot({
+      config: {
+        url: 'redis://:testredis@redisservice',
+      },
+    }),
     AuthModule,
     UsersModule,
     AreasModule,

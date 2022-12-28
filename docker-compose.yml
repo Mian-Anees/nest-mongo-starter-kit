@@ -1,5 +1,14 @@
 version: '3.4'
 services:
+  redisservice:
+    image: redis:4.0.11
+    ports:
+      - 7010:6379
+    command: '--requirepass testredis'
+    volumes:
+      - redis_data:/data
+    networks:
+      - db
   smartengine:
     image: smartengine
     build:
@@ -10,17 +19,16 @@ services:
     ports:
       - 3001:3000
     depends_on:
-      - mongo
+      - dbservice
+      - redisservice
     networks:
       - db
-  mongo:
+  dbservice:
     image: mongo:latest
-    container_name: 'nest_mongo'
+    container_name: 'mongodbservice'
     restart: always
     volumes:
       - mongodb_data_container:/data/db
-    environment:
-      - MONGO_INITDB_DATABASE=nest
     ports:
       - 27000:27017
     networks:
@@ -29,3 +37,4 @@ networks:
   db:
 volumes:
   mongodb_data_container:
+  redis_data:

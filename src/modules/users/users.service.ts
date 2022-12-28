@@ -1,3 +1,4 @@
+import { InjectRedis, Redis } from '@nestjs-modules/ioredis';
 import { Injectable, Logger } from '@nestjs/common';
 import { UsersRepositoryService } from 'src/repositories/user.repository';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -6,6 +7,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 @Injectable()
 export class UsersService {
   constructor(
+    @InjectRedis() private readonly redis: Redis,
     private readonly userRepositoryService: UsersRepositoryService) {
   }
   create(createUserDto: CreateUserDto) {
@@ -17,9 +19,12 @@ export class UsersService {
     }
   }
 
-  findAll() {
+  async findAll() {
     try {
-      return this.userRepositoryService.findAllUsers();
+      await this.redis.set('key', 'Redis data!');
+      const redisData = await this.redis.get("key");
+      return redisData;
+      // return this.userRepositoryService.findAllUsers();
     } catch (error) {
       Logger.error(error.message)
       throw error
